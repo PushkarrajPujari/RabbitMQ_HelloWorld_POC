@@ -1,3 +1,4 @@
+import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
@@ -9,14 +10,18 @@ import java.util.Scanner;
  */
 public class Send {
     /**
-     * Stage 1 , Added all dependencies using maven , you can find a pom.xml file in the project
-     * In this stage we will establish a basic connection  to rabbitmq
+     * Stage 2 - In this stage we will create a channel using the connection we created in previous stage
+     * and we will declare a queue in that channel
+     * In this stage we have also given a name to our connection
      * */
+    public static String Queue_Name = "MyFirstQueue";
     public static void main(String[] args) {
         try{
             ConnectionFactory connectionFactory = new ConnectionFactory();
             connectionFactory.setHost("localhost");
-            Connection connection = connectionFactory.newConnection();
+            Connection connection = connectionFactory.newConnection("MyFirstConnection");
+            Channel channel = connection.createChannel();
+            channel.queueDeclare(Queue_Name,false,false,false,null);
             blockingCall();
             connection.close();
         }catch (Exception exception){
