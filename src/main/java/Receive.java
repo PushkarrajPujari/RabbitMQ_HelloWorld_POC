@@ -1,6 +1,7 @@
 import com.rabbitmq.client.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Scanner;
 
 /**
  * @Author : Pushkarraj Pujari
@@ -8,8 +9,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class Receive {
     /**
-     * Stage 4 - In this stage we will be writing the consumer
-     * this stage will not work and is purposely kept this way to bring your attention to an important line of code
+     * Stage 4.1 - working example of consumer
      * */
     public static String Queue_Name = "MyFirstQueue";
     public static void main(String[] args) {
@@ -27,8 +27,17 @@ public class Receive {
                     System.out.println(" [x] Received '" + message + "'");
                 }
             };
+            channel.basicConsume(Queue_Name,true,consumer);
+            blockingCall();
+            channel.close();
+            connection.close();
         }catch (Exception exception){
             exception.printStackTrace();
         }
+    }
+    public static void blockingCall(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Press Enter To Exit.......");
+        scanner.nextLine();
     }
 }
