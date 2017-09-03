@@ -10,11 +10,11 @@ import java.util.Scanner;
  */
 public class Send {
     /**
-     * Stage 2 - In this stage we will create a channel using the connection we created in previous stage
-     * and we will declare a queue in that channel
-     * In this stage we have also given a name to our connection
+     * Stage 3 - Publishing out first message
      * */
     public static String Queue_Name = "MyFirstQueue";
+    public static String message = "Hello World";
+
     public static void main(String[] args) {
         try{
             ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -22,7 +22,9 @@ public class Send {
             Connection connection = connectionFactory.newConnection("MyFirstConnection");
             Channel channel = connection.createChannel();
             channel.queueDeclare(Queue_Name,false,false,false,null);
+            channel.basicPublish("",Queue_Name,null,message.getBytes());
             blockingCall();
+            channel.close();
             connection.close();
         }catch (Exception exception){
             exception.printStackTrace();
